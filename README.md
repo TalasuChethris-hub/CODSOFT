@@ -48,15 +48,15 @@ Currently, the calculator represents an outline/basic implementation and may be 
 
 ## Features Used
 ## Basic arithmetic operations
-Addition (+)
-Subtraction (-)
-Multiplication (×)
-Division (÷)
-Interactive button-based UI
-Real-time display updates
-Clear/Delete functionality
-Simple and responsive design
+● Addition (+)
+● Subtraction (-)
+● Multiplication (×)
+● Division (÷)
+● Interactive button-based UI
+● Real-time display updates
+● Clear/Delete functionality
+● Simple and responsive design
 ## Technologies Used
-HTML5 – Layout structure
-CSS3 – UI styling
-JavaScript – Calculator logic and operations
+● HTML5 – Layout structure
+● CSS3 – UI styling
+● JavaScript – Calculator logic and operations

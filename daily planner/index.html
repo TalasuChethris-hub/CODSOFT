@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <title>planning app</title>
+    <link rel="stylesheet" href="style.css">
+    <Script>
+        let heading="";
+        let savedTasks=[];
+        let savedSchedule =[];
+    function openBox(){
+    document.getElementById("overlay").style.display="flex";
+    }
+    function closeBox(){
+    document.getElementById("overlay").style.display="none";
+    }
+    function addTask(){
+    let input = document.getElementById("taskInput");
+    let taskText = input.value.trim();
+    if(taskText === ""){
+        return;
+    }
+    let taskList = document.getElementById("taskList");
+    let label = document.createElement("label");
+    label.className = "task-item";
+    label.innerHTML = `
+        <input class="task-check" type="checkbox">
+        <span class="task-item1">${taskText}</span>
+        <button class="minus">-</button>
+    `;
+    taskList.appendChild(label);
+    /*let checkbox = label.querySelector(".task-check");
+    checkbox.addEventListener("change", function () {
+    let completedBox =document.getElementById("completedTasks");
+    let taskName =label.querySelector(".task-item1")
+        .textContent;
+    if (checkbox.checked) {
+        let taskDiv =document.createElement("div");
+        taskDiv.className = "done-task";
+        taskDiv.id ="done-" +taskName.replace(/\s+/g, "-");
+        taskDiv.innerHTML = `
+            <input type="checkbox" checked >
+            <span>${taskName}</span>
+        `;
+        completedBox.appendChild(taskDiv);
+    } else {
+        let task =document.getElementById(
+                "done-" +
+                taskName.replace(/\s+/g, "-")
+            );
+        if(task){
+            task.remove();
+        }
+    }
+});*/
+    let completedBox =document.getElementById("completedTasks");
+    let msgs=label.querySelector(".task-item1").textContent;
+    let taskDiv=document.createElement("div");
+    taskDiv.className="entered-task";
+    taskDiv.innerHTML=`
+            <input type="checkbox" >
+            <span>${msgs}</span>
+    `;
+    completedBox.appendChild(taskDiv);
+    input.value = "";
+    label.querySelector(".minus").onclick = function () {
+        taskDiv.remove();
+        label.remove();
+    };
+    }
+    function SavedTasks(){
+    savedTasks = [];
+    let taskItems =document.querySelectorAll(".task-item1");
+    let title=document.getElementById("title");
+    heading=title.value.trim();
+    taskItems.forEach(task => {
+        let taskName =task.textContent.trim();
+        savedTasks.push(taskName);
+    });
+    alert("Tasks Saved!");
+}
+    /*function openBox2(){
+    document.getElementById("overlay2").style.display = "flex";
+    let container =document.getElementById("timeContainer");
+    container.innerHTML = `
+        <h3 class="sub-heading">
+            ${heading}
+        </h3>
+    `;
+    savedTasks.forEach(taskName => {
+        let div =document.createElement("div");
+        div.className = "time-card";
+        div.innerHTML = `
+            <span>${taskName}</span>
+            <input 
+                type="time"
+                class="task-time"
+                data-task="${taskName}"
+            >
+        `;
+        container.appendChild(div);
+    });
+    container.innerHTML += `
+        <button onclick="SavedTasks2()"
+        class="save2">
+            Save
+        </button>
+    `;
+}*/
+
+    function openBox2(){
+    document.getElementById("overlay2").style.display = "flex";
+    let container =document.getElementById("timeContainer");
+    container.innerHTML = "";
+     container.innerHTML = `
+        <h3 class="sub-heading">
+            ${heading}
+        </h3>
+    `;
+    savedTasks.forEach(taskName => {
+        let div =document.createElement("div");
+        div.className = "time-card";
+        div.innerHTML = `
+            <span>${taskName}</span>
+            <input type="time" class="task-time" data-task="${taskName}">
+            <button onclick="SavedTasks2()" class="save2">Save</button>
+        `;
+        container.appendChild(div);
+    });
+}
+    function SavedTasks2(){
+    savedSchedule = [];
+    let inputs =document.querySelectorAll(".task-time");
+    inputs.forEach(input => {
+        savedSchedule.push({
+            task: input.dataset.task,
+            time: input.value
+        });
+    });
+
+    alert("Time Saved!");
+}
+    function openBox3() {
+    document.getElementById("overlay3").style.display = "flex";
+    let container = document.getElementById("alarmContainer");
+    container.innerHTML = `
+        <h3 class="sub-heading">${heading}</h3>
+    `;
+    savedSchedule.forEach(item => {
+        let div = document.createElement("div");
+        div.className = "alarm-card";
+        div.innerHTML = `
+            <div class="alarm-left">
+                <h3>${item.task}</h3>
+                <span>${item.time}</span>
+            </div>
+            <button
+                onclick="openSongsApp()"
+                class="ringtone-btn">
+                Set Ringtone
+            </button>
+        `;
+        container.appendChild(div);
+    });
+}
+    function openSongsApp(){
+    window.open(
+        "https://open.spotify.com",
+        "_blank"
+    );
+}
+        function autoReschedule() {
+        savedSchedule.forEach((task, index) => {
+        // If task has no time, skip
+        if (!task.time) return;
+        let [hour, minute] = task.time.split(":");
+        hour = parseInt(hour);
+        minute = parseInt(minute);
+        // Example: shift missed task by +1 hour
+        hour += 1;
+        if (hour >= 24) {
+            hour = hour - 24;
+        }
+        task.time =
+            String(hour).padStart(2, "0") +
+            ":" +
+            String(minute).padStart(2, "0");
+    });
+    alert("Missed tasks automatically rescheduled!");
+}
+    /*function SavedTasks2(){
+        SavedTasks=[];
+        let taskItems2=document.querySelectorAll(".time-card");
+        taskItems2.forEach(task=>{
+            let taskName2=task.textContent.trim();
+            SavedTasks2.push(taskName2);
+        });
+        alert("Tasks Saved");
+    }*/
+    function closeBox2(){
+    document.getElementById("overlay2").style.display = "none";
+    }
+     function closeBox3(){
+        document.getElementById("overlay3").style.display="none";
+    }
+    function gotopop1(){
+        document.getElementById("overlay").style.display="flex";
+    }
+    </Script>
+</head>
+<body>
+    <header class="head">
+        <div class="one">
+        <div class="logo">
+            <img src="logo.png">
+        </div>
+        <div class="pro-name">
+            <h3>GritUrLife</h3>
+        </div>
+        <div class="start">
+            <button onclick="gotopop1()">Build My Schedule</button>
+        </div>
+        </div>
+    </header>
+    <section class="container1">
+        <div class="home">
+            <div class="main-title">
+                <p> <span>Stay</span>Consistent <span>Stay</span>Disciplined </p>
+            </div>
+            <div class="lead">
+                <p> Plan your day smarter with routines, reminders, and automatic rescheduling. </p>
+            </div>
+            <div class="buttons">
+                <div class="but1">
+                    <button>Watch Demo</button>
+                </div>
+                <div class="but2">
+                    <button>Get Started</button>
+                </div>
+            </div>
+            <div class="alerts">
+    <h3>Completed Tasks</h3>
+    <div
+        id="completedTasks"
+        class="completedTasks">
+    </div>
+</div>
+        </div>
+    </section>
+    <section class="features">
+        <div class="container2">
+            <div class="tabs">
+                <div class="one">
+            <div class="card" onclick="openBox()">
+                plan your day
+            </div>
+            <div class="card" onclick="openBox2()">
+                Set a time for the activities
+            </div>
+            </div>
+                <div class="two">
+            <div class="card" onclick="openBox3()">
+                Set an alarm
+            </div>
+            <div class="card auto-card" onclick="autoReschedule()">
+            <div>
+        <h4>Auto Reschedule</h4>
+    </div>
+</div>
+            </div>
+            <!-- Transparent Background -->
+            <div id="overlay" class="overlay">
+            <!-- Expanded Editable Box -->
+            <div id="pop1" class="popup-box">
+            <button class="close-btn" onclick="closeBox()">✖</button>
+            <h2>Edit Feature</h2>
+            <input id="title" type="text" placeholder="Enter Title">
+            <textarea placeholder="Write something here..."></textarea>
+            <h2>Today's Routine</h2>
+    <!-- Task Input -->
+            <div class="add-task">
+                <input type="text" id="taskInput" placeholder="Add new task">
+                <button onclick="addTask()">+</button>
+            </div>
+    <!-- Checklist -->
+            <div id="taskList" class="task-list">
+                </div>
+                <button onclick="SavedTasks()" class="save-btn">Save</button>
+        </div>
+    </div>
+    <div id="overlay2" class="overlay">
+    <div class="popup-box">
+        <button class="close-btn" onclick="closeBox2()">✖</button>
+        <h2>Set Activity Time</h2>
+        <div id="timeContainer" class="time-container">
+        </div>
+    </div>
+</div>
+    <div id="overlay3" class="overlay">
+    <div class="popup-box">
+        <button class="close-btn" onclick="closeBox3()">✖</button>
+        <h2>Set an alarm</h2>
+        <div id="alarmContainer" class="time-container">
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </section>
+    <footer class="foot">
+        <div class="navigates">
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Plan</a>
+        <a href="#">Alarms</a>
+        <a href="#">Music</a>
+        </div>
+    </footer>
+</body>
+</html>
